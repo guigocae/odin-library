@@ -8,13 +8,6 @@ function Book(title, author, pages, read=false) {
     this.author = author;
     this.pages = pages;
     this.read = read;
-
-    this.info = () => {
-        let readed = "not read yet";
-        if(this.read)
-            readed = "already readed";
-        return `${title} by ${author}, ${pages} pages, ${readed}`;
-    }
 }
 
 function addBookToLibrary(title, author, pages, read) {
@@ -25,6 +18,7 @@ function addBookToLibrary(title, author, pages, read) {
 
 function showBooks() {
     const grid = document.querySelector('.library-container');
+    grid.innerHTML = "";
     myLibrary.forEach((element) => {
         let read = "Not read yet";
         if(element.read) 
@@ -42,16 +36,40 @@ function showBooks() {
     })
 }
 
-document.getElementById("addBook").addEventListener("click", () => {
+document.getElementById("openModal").addEventListener("click", () => {
+    document.querySelector(".modal-addBook").showModal()
+});
 
-})
+document.getElementById("closeModal").addEventListener("click", () => {
+    document.querySelector(".modal-addBook").close();
+});
 
-addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295);
-addBookToLibrary("Harry Potter", "J.K. Rowling", 457, true);
-addBookToLibrary("Harry Potter", "J.K. Rowling", 457, true);
-addBookToLibrary("Harry Potter", "J.K. Rowling", 457, true);
-addBookToLibrary("Harry Potter", "J.K. Rowling", 457, true);
-addBookToLibrary("Harry Potter", "J.K. Rowling", 457, true);
-addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295);
-console.log(myLibrary)
-showBooks();
+document.getElementById("formAddBook").addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const bookTitle = document.querySelector("#bookTitle");
+    const bookAuthor = document.querySelector("#bookAuthor");
+    const bookPages = document.querySelector("#bookPages");
+    const bookRead = document.querySelector("#bookRead").checked;
+
+    const inputs = [bookAuthor, bookTitle, bookPages];
+    let empty = 0;
+
+    inputs.forEach((input) => {
+        if(input.value == ""){
+            const element = document.querySelector(`label[for=${input.id}]`);
+            element.style.color = "red";
+            setTimeout(() => {
+                element.style.color = "white"
+            }, 500);
+            empty = 1;
+        }
+    });
+
+    if(empty)
+        return;
+
+    addBookToLibrary(bookTitle.value, bookAuthor.value, bookPages.value, bookRead);
+    showBooks();
+    console.log(myLibrary)
+});

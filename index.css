@@ -38,10 +38,55 @@ body {
     grid-template-columns: repeat(auto-fill, 200px);
 }
 
-.books small {
-    margin-top: auto;
+.books small { margin-top: auto; }
+
+.addBook {
+    background-color: #C0D461;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-#addBook {
-    background-color: #C0D461;
+.modal-addBook {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #2E4057;
+    padding: 25px;
+    border: none;
+    border-radius: 10px;
+    min-width: 310px;
+    color: white;
+}
+
+.modal-addBook::backdrop { background-color: hsla(0, 0%, 5%, 0.8); }
+
+.input-form {
+    position: relative;
+    margin-block: 45px;
+}
+
+.input-form > input {
+    width: 100%;
+    padding: 5px;
+}
+
+.input-label {
+    position: absolute;
+    top: -24px;
+}
+
+#bookRead { accent-color: #C0D461; }
+
+.button-modal {
+    display: block;
+    margin: auto;
+    margin-top: 10px;
+}
+
+.close-button {
+    position: absolute;
+    right: 20px;
+    cursor: pointer;
 }

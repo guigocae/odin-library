@@ -10,12 +10,35 @@
 </head>
 <body>
     <div class="container">
-        <h1>Book Library <button id="addBook">Add Book</button></h1>
+        <h1>Book Library <button class="addBook" id="openModal">Add Book</button></h1>
 
         <div class="library-container"></div>
-
-        <div class="modal-addBook"></div>
     </div>
+
+    <!-- modal add -->
+    <dialog class="modal-addBook">
+        <form action="" id="formAddBook">
+            <div class="close-button" id="closeModal">X</div>
+            <h2>Add Book</h2>
+            <div class="input-form">
+                <label for="bookTitle" class="input-label">Insert the book title</label>
+                <input type="text" id="bookTitle" maxlength="100">
+            </div>
+            <div class="input-form">
+                <label for="bookAuthor" class="input-label">Insert the author</label>
+                <input type="text" id="bookAuthor" maxlength="100">
+            </div>
+            <div class="input-form">
+                <label for="bookPages" class="input-label" min="10">Insert the number of pages</label>
+                <input type="number" id="bookPages" maxlength="100">
+            </div>
+            <div class="input-form-check">
+                <label for="bookRead">Have you read the book?</label>
+                <input type="checkbox" id="bookRead">
+            </div>
+            <input type="submit" class="addBook button-modal" value="Add"></input>
+        </form>
+    </dialog>
 
     <script src="main.js"></script>
 </body>
