@@ -18,6 +18,12 @@ body {
     gap: 20px;
 }
 
+h1 {
+    display: flex;
+    padding: 15px;
+    gap: 20px;
+}
+
 .books {
     display: flex;
     flex-direction: column;
