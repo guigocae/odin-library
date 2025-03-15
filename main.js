@@ -114,10 +114,18 @@ document.getElementById("formAddBook").addEventListener("submit", (event) => {
 });
 
 document.getElementById("openModal").addEventListener("click", () => {
-    document.querySelector(".modal-addBook").showModal()
+    const modal = document.querySelector(".modal-addBook");
+    modal.showModal()
+    modal.classList.add('animate__animated', 'animate__fadeIn');
 });
 
 document.getElementById("closeModal").addEventListener("click", () => {
-    document.querySelector(".modal-addBook").close();
-});
+    const modal = document.querySelector(".modal-addBook");
+    modal.classList.remove('animate__fadeIn'); 
+    modal.classList.add('animate__animated', 'animate__fadeOut');
 
+    modal.addEventListener('animationend', () => {
+        modal.close(); 
+        modal.classList.remove('animate__fadeOut'); 
+      }, { once: true });
+});

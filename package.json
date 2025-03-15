@@ -1,0 +1,15 @@
+{
+  "name": "odin-library",
+  "version": "1.0.0",
+  "description": "a book library",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "odin-library"
+  },
+  "author": "Guilherme Caetano",
+  "license": "MIT"
+}
