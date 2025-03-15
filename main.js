@@ -10,8 +10,11 @@ function Book(title, author, pages, read=false) {
     this.read = read;
 }
 
-function addBookToLibrary(title, author, pages, read) {
+Book.prototype.toggleStatus = function() {
+    this.read = !this.read;
+}
 
+function addBookToLibrary(title, author, pages, read) {
     const book = new Book(title, author, pages, read);
     myLibrary.push(book);
 }
@@ -20,29 +23,59 @@ function showBooks() {
     const grid = document.querySelector('.library-container');
     grid.innerHTML = "";
     myLibrary.forEach((element) => {
-        let read = "Not read yet";
-        if(element.read) 
-            read = "Already readed";
-
         let book = `
-            <div class="books">
+            <div class="books" data-id="${element.id}">
                 <h3 class="titulo">${element.title}</h3>
                 <p>Author: ${element.author}</p>
                 <p>Pages: ${element.pages}</p>
-                <small>${read}</small>
+                <small>Not read yet <input type="checkbox" class="bookRead"></small>
+                <div class="excluir">Excluir</div>
+            </div>
+        `;
+        if(element.read) 
+            book = `
+            <div class="books" data-id="${element.id}">
+                <h3 class="titulo">${element.title}</h3>
+                <p>Author: ${element.author}</p>
+                <p>Pages: ${element.pages}</p>
+                <small>Already readed <input type="checkbox" class="bookRead" checked></small>
+                <div class="excluir">Excluir</div>
             </div>
         `;
         grid.innerHTML += book;
     })
+
+    document.querySelectorAll(".books").forEach((element) => {
+        const checkbox = element.querySelector(".bookRead");
+        element.querySelector(".excluir").addEventListener("click", () => {
+            deleteBook(element.dataset.id);
+            showBooks();
+        });
+        checkbox.addEventListener("click", () => {
+            toggleBookStatus(element.dataset.id);
+            showBooks();
+        });
+    });
+
 }
 
-document.getElementById("openModal").addEventListener("click", () => {
-    document.querySelector(".modal-addBook").showModal()
-});
+function deleteBook(id) {
+    const index = myLibrary.findIndex((element) => element.id === id);
+    if (index === -1) {
+        console.error("Book not found with the given ID:", id);
+        return; 
+    }
+    myLibrary.splice(index, 1);
+}
 
-document.getElementById("closeModal").addEventListener("click", () => {
-    document.querySelector(".modal-addBook").close();
-});
+function toggleBookStatus(id) {
+    const index = myLibrary.findIndex((element) => element.id === id);
+    if (index === -1) {
+        console.error("Book not found with the given ID:", id);
+        return; 
+    }
+    myLibrary[index].toggleStatus();
+}
 
 document.getElementById("formAddBook").addEventListener("submit", (event) => {
     event.preventDefault();
@@ -50,7 +83,7 @@ document.getElementById("formAddBook").addEventListener("submit", (event) => {
     const bookTitle = document.querySelector("#bookTitle");
     const bookAuthor = document.querySelector("#bookAuthor");
     const bookPages = document.querySelector("#bookPages");
-    const bookRead = document.querySelector("#bookRead").checked;
+    const bookRead = document.querySelector("#bookReadCheck").checked;
 
     const inputs = [bookAuthor, bookTitle, bookPages];
     let empty = 0;
@@ -70,6 +103,21 @@ document.getElementById("formAddBook").addEventListener("submit", (event) => {
         return;
 
     addBookToLibrary(bookTitle.value, bookAuthor.value, bookPages.value, bookRead);
+
+    bookTitle.value = "";
+    bookAuthor.value = "";
+    bookPages.value = "";
+    bookRead.checked = false;
+    document.querySelector(".modal-addBook").close();
+
     showBooks();
-    console.log(myLibrary)
 });
+
+document.getElementById("openModal").addEventListener("click", () => {
+    document.querySelector(".modal-addBook").showModal()
+});
+
+document.getElementById("closeModal").addEventListener("click", () => {
+    document.querySelector(".modal-addBook").close();
+});
+
